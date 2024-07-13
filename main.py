@@ -14,8 +14,6 @@ for article in articles:
     for p in paragraphs:
         article_content += p.text
 
-print(article_content)
-
 client = openai.OpenAI()
 response = client.chat.completions.create(
     messages= [
@@ -25,13 +23,10 @@ response = client.chat.completions.create(
         },
         {
             'role':'user',
-            'content': f"Article: {article_content}"
+            'content': f"Write a reader's digest version of this article: {article_content}"
         }
     ],
     model="gpt-3.5-turbo-0125"
 )
 
 print(response.choices[0].message)
-
-# class: article-body__content
-
