@@ -2,6 +2,7 @@ import openai
 from bs4 import BeautifulSoup
 import requests
 
+# Set up news scraper
 url = "https://www.nbcnews.com/business/consumer/paramount-merger-sparks-concern-movie-theater-owners-rcna160773"
 req = requests.get(url)
 soup = BeautifulSoup(req.content, "html.parser")
@@ -14,8 +15,10 @@ for article in articles:
     for p in paragraphs:
         article_content += p.text
 
+# Start tweet generator
 client = openai.OpenAI()
 response = client.chat.completions.create(
+    model="gpt-3.5-turbo-0125",
     messages= [
         {
             'role':'system',
@@ -26,7 +29,6 @@ response = client.chat.completions.create(
             'content': f"Write a reader's digest version of this article: {article_content}"
         }
     ],
-    model="gpt-3.5-turbo-0125"
 )
 
 print(response.choices[0].message)
